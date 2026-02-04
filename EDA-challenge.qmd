@@ -1,0 +1,77 @@
+---
+title: "EDA-challenge.qmd"
+format: html
+---
+
+library(tidyverse) # need this for read_csv
+f <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"
+d <- read_csv(f, col_names = TRUE)
+names(d) # prints column names
+
+BMM <- d$Body_mass_male_mean
+BMF <- d$Body_mass_female_mean
+BSD <- BMM / BMF
+BSD # "body size dimorphism", AKA how much bigger males are to females
+
+AF <- d$AdultFemale
+AM <- d$AdultMales
+sex_ratio <- AF / AM
+sex_ratio # how many females for every male
+
+DL <- d$DayLength_km
+HR <- d$HomeRange_km2
+HD <- 2 * sqrt(HR / pi) # converts home range area to a diameter
+DI <- DL / HD # "defensibility index", AKA day range length divided by home range diameter
+DI
+
+
+library(skimr)
+overall <- ggplot(data = d, mapping = aes(x = DayLength_km, y = Move)) + geom_point() + xlab("Day Range Length (km)") + ylab("Time Spent Moving (hours)") + ylim(0, 24)
+overall # compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families
+
+byfamily = overall + facet_wrap(vars(d$Family))
+byfamily # splits the above comparison into individual families
+
+ # At first glance, there seems to be a weak positive correlation between spending more time moving and covering more distance in a day, both overall and in the families Atelidae, Cercopithecidae, Hylobatidae, and Lemuridae.
+
+overall_log <- ggplot(data = d, mapping = aes(x = log(DayLength_km), y = Move)) + geom_point() + xlab("Day Range Length (log(km))") + ylab("Time Spent Moving (hours)") + ylim(0, 24)
+overall_log # compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families
+
+byfamily_log = overall_log + facet_wrap(vars(d$Family))
+byfamily_log # splits the above comparison into individual families
+
+ # I figured transforming the distance moved might be helpful. but in my opinion it is not.
+
+DLvsGS <- ggplot(data = d, mapping = aes(x = MeanGroupSize, y = DayLength_km)) + geom_point() + xlab("Mean Group Size") + ylab("Day Range Length(km)")
+DLvsGS # compares mean group size and distance traveled in a day
+
+DLvsGS_family <- DLvsGS + facet_wrap(vars(d$Family))
+DLvsGS_family # separates the above data by family
+
+ # Species that live in larger groups seem to travel farther in a day, both overall and in the families Cebidae, Cercopithecidae, and Pitheciidae.
+
+DLvsGS_log <- ggplot(data = d, mapping = aes(x = log(MeanGroupSize), y = log(DayLength_km))) + geom_point() + xlab("log(Mean Group Size)") + ylab("log(Day Range Length(km))")
+DLvsGS_log # transforms above plots using logarithms
+
+DLvsGS_family_log <- DLvsGS_log + facet_wrap(vars(d$Family))
+DLvsGS_family_log
+
+ # Transforming both variables to logarithms made the differences much clearer; now I would say that the families Atelidae, Hominidae, Lemuridae, and maybe Indriidae show that positive correlation between group size and amount traveled in a day.
+
+library(rlang)
+fr <- d$Fruit
+le <- as.numeric(d$Leaves)
+fa <- as.numeric(d$Fauna)
+frug <- fr / (le + fa)
+fol <- le / (fr + fa)
+ds = case_when(frug > 1 ~ "frugivore", fol > 1 ~ "folivore", are_na(fr) == FALSE & are_na(le) == FALSE & are_na(fa) == FALSE ~ "omnivore")
+ds # groups all animals into their respective diet strategy groups
+
+d$diet_strategy <- ds
+d$diet_strategy
+
+dietstrat <- ggplot(data = d, mapping = aes(x = diet_strategy, y = MeanGroupSize)) + geom_boxplot() + xlab("Diet Strategy") + ylab("Mean Group Size")
+dietstrat # I for the life of me cannot figure out how to remove the NA plot
+
+ # Frugivores seem to live in slightly larger groups than folivores.
+

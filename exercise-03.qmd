@@ -1,0 +1,9 @@
+---
+title: "exercise-03"
+format: html
+---
+
+library(tidyverse)
+f <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"
+d <- read_csv(f, col_names = TRUE)
+names(d)
