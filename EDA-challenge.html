@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -36,35 +71,6 @@ ul.task-list li input[type="checkbox"] {
 <link href="EDA-challenge_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="EDA-challenge_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -95,94 +101,490 @@ window.Quarto = {
 
 <section id="exercise-03" class="level1">
 <h1>exercise-03</h1>
-<p>library(tidyverse)</p>
-<section id="need-this-for-read_csv" class="level4">
-<h4 class="anchored" data-anchor-id="need-this-for-read_csv">need this for read_csv</h4>
-<p>f &lt;- “https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv” d &lt;- read_csv(f, col_names = TRUE) names(d)</p>
-</section>
-<section id="prints-column-names" class="level4">
-<h4 class="anchored" data-anchor-id="prints-column-names">prints column names</h4>
-<p>BMM &lt;- d<span class="math inline">\(Body_mass_male_mean
-BMF &lt;- d\)</span>Body_mass_female_mean BSD &lt;- BMM / BMF BSD</p>
-</section>
-<section id="body-size-dimorphism-aka-how-much-bigger-males-are-to-females" class="level4">
-<h4 class="anchored" data-anchor-id="body-size-dimorphism-aka-how-much-bigger-males-are-to-females">“body size dimorphism”, AKA how much bigger males are to females</h4>
-<p>AF &lt;- d<span class="math inline">\(AdultFemale
-AM &lt;- d\)</span>AdultMales sex_ratio &lt;- AF / AM sex_ratio</p>
-</section>
-<section id="how-many-females-for-every-male" class="level4">
-<h4 class="anchored" data-anchor-id="how-many-females-for-every-male">how many females for every male</h4>
-<p>DL &lt;- d<span class="math inline">\(DayLength_km
-HR &lt;- d\)</span>HomeRange_km2 HD &lt;- 2 * sqrt(HR / pi)</p>
-</section>
-<section id="converts-home-range-area-to-a-diameter" class="level4">
-<h4 class="anchored" data-anchor-id="converts-home-range-area-to-a-diameter">converts home range area to a diameter</h4>
-<p>DI &lt;- DL / HD</p>
-</section>
-<section id="defensibility-index-aka-day-range-length-divided-by-home-range-diameter" class="level4">
-<h4 class="anchored" data-anchor-id="defensibility-index-aka-day-range-length-divided-by-home-range-diameter">“defensibility index”, AKA day range length divided by home range diameter</h4>
-<p>DI</p>
-<p>library(skimr) overall &lt;- ggplot(data = d, mapping = aes(x = DayLength_km, y = Move)) + geom_point() + xlab(“Day Range Length (km)”) + ylab(“Time Spent Moving (hours)”) + ylim(0, 24) overall</p>
-</section>
-<section id="compares-the-amount-an-animal-moves-in-a-day-with-the-amount-of-time-that-animal-moves-in-a-day-across-all-families" class="level4">
-<h4 class="anchored" data-anchor-id="compares-the-amount-an-animal-moves-in-a-day-with-the-amount-of-time-that-animal-moves-in-a-day-across-all-families">compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families</h4>
-<p>byfamily = overall + facet_wrap(vars(d$Family)) byfamily</p>
-</section>
-<section id="splits-the-above-comparison-into-individual-families" class="level4">
-<h4 class="anchored" data-anchor-id="splits-the-above-comparison-into-individual-families">splits the above comparison into individual families</h4>
-</section>
-<section id="at-first-glance-there-seems-to-be-a-weak-positive-correlation-between-spending-more-time-moving-and-covering-more-distance-in-a-day-both-overall-and-in-the-families-atelidae-cercopithecidae-hylobatidae-and-lemuridae." class="level4">
-<h4 class="anchored" data-anchor-id="at-first-glance-there-seems-to-be-a-weak-positive-correlation-between-spending-more-time-moving-and-covering-more-distance-in-a-day-both-overall-and-in-the-families-atelidae-cercopithecidae-hylobatidae-and-lemuridae.">At first glance, there seems to be a weak positive correlation between spending more time moving and covering more distance in a day, both overall and in the families Atelidae, Cercopithecidae, Hylobatidae, and Lemuridae.</h4>
-<p>overall_log &lt;- ggplot(data = d, mapping = aes(x = log(DayLength_km), y = Move)) + geom_point() + xlab(“Day Range Length (log(km))”) + ylab(“Time Spent Moving (hours)”) + ylim(0, 24) overall_log</p>
-</section>
-<section id="compares-the-amount-an-animal-moves-in-a-day-with-the-amount-of-time-that-animal-moves-in-a-day-across-all-families-1" class="level4">
-<h4 class="anchored" data-anchor-id="compares-the-amount-an-animal-moves-in-a-day-with-the-amount-of-time-that-animal-moves-in-a-day-across-all-families-1">compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families</h4>
-<p>byfamily_log = overall_log + facet_wrap(vars(d$Family)) byfamily_log</p>
-</section>
-<section id="splits-the-above-comparison-into-individual-families-1" class="level4">
-<h4 class="anchored" data-anchor-id="splits-the-above-comparison-into-individual-families-1">splits the above comparison into individual families</h4>
-</section>
-<section id="i-figured-transforming-the-distance-moved-might-be-helpful.-but-in-my-opinion-it-is-not." class="level4">
-<h4 class="anchored" data-anchor-id="i-figured-transforming-the-distance-moved-might-be-helpful.-but-in-my-opinion-it-is-not.">I figured transforming the distance moved might be helpful. but in my opinion it is not.</h4>
-<p>DLvsGS &lt;- ggplot(data = d, mapping = aes(x = MeanGroupSize, y = DayLength_km)) + geom_point() + xlab(“Mean Group Size”) + ylab(“Day Range Length(km)”) DLvsGS</p>
-</section>
-<section id="compares-mean-group-size-and-distance-traveled-in-a-day" class="level4">
-<h4 class="anchored" data-anchor-id="compares-mean-group-size-and-distance-traveled-in-a-day">compares mean group size and distance traveled in a day</h4>
-<p>DLvsGS_family &lt;- DLvsGS + facet_wrap(vars(d$Family)) DLvsGS_family</p>
-</section>
-<section id="separates-the-above-data-by-family" class="level4">
-<h4 class="anchored" data-anchor-id="separates-the-above-data-by-family">separates the above data by family</h4>
-</section>
-<section id="species-that-live-in-larger-groups-seem-to-travel-farther-in-a-day-both-overall-and-in-the-families-cebidae-cercopithecidae-and-pitheciidae." class="level4">
-<h4 class="anchored" data-anchor-id="species-that-live-in-larger-groups-seem-to-travel-farther-in-a-day-both-overall-and-in-the-families-cebidae-cercopithecidae-and-pitheciidae.">Species that live in larger groups seem to travel farther in a day, both overall and in the families Cebidae, Cercopithecidae, and Pitheciidae.</h4>
-<p>DLvsGS_log &lt;- ggplot(data = d, mapping = aes(x = log(MeanGroupSize), y = log(DayLength_km))) + geom_point() + xlab(“log(Mean Group Size)”) + ylab(“log(Day Range Length(km))”) DLvsGS_log</p>
-</section>
-<section id="transforms-above-plots-using-logarithms" class="level4">
-<h4 class="anchored" data-anchor-id="transforms-above-plots-using-logarithms">transforms above plots using logarithms</h4>
-<p>DLvsGS_family_log &lt;- DLvsGS_log + facet_wrap(vars(d$Family)) DLvsGS_family_log</p>
-</section>
-<section id="transforming-both-variables-to-logarithms-made-the-differences-much-clearer-now-i-would-say-that-the-families-atelidae-hominidae-lemuridae-and-maybe-indriidae-show-that-positive-correlation-between-group-size-and-amount-traveled-in-a-day." class="level4">
-<h4 class="anchored" data-anchor-id="transforming-both-variables-to-logarithms-made-the-differences-much-clearer-now-i-would-say-that-the-families-atelidae-hominidae-lemuridae-and-maybe-indriidae-show-that-positive-correlation-between-group-size-and-amount-traveled-in-a-day.">Transforming both variables to logarithms made the differences much clearer; now I would say that the families Atelidae, Hominidae, Lemuridae, and maybe Indriidae show that positive correlation between group size and amount traveled in a day.</h4>
-<p>library(rlang) fr &lt;- d<span class="math inline">\(Fruit
-le &lt;- as.numeric(d\)</span>Leaves) fa &lt;- as.numeric(d$Fauna) frug &lt;- fr / (le + fa) fol &lt;- le / (fr + fa) ds = case_when(frug &gt; 1 ~ “frugivore”, fol &gt; 1 ~ “folivore”, are_na(fr) == FALSE &amp; are_na(le) == FALSE &amp; are_na(fa) == FALSE ~ “omnivore”) ds</p>
-</section>
-<section id="groups-all-animals-into-their-respective-diet-strategy-groups" class="level4">
-<h4 class="anchored" data-anchor-id="groups-all-animals-into-their-respective-diet-strategy-groups">groups all animals into their respective diet strategy groups</h4>
-<p>d<span class="math inline">\(diet_strategy &lt;- ds
-d\)</span>diet_strategy</p>
-<p>dietstrat &lt;- ggplot(data = d[-which(d$diet_strategy %in% NA),], mapping = aes(x = diet_strategy, y = MeanGroupSize)) + geom_boxplot() + xlab(“Diet Strategy”) + ylab(“Mean Group Size”) dietstrat</p>
-</section>
-<section id="box-plots-for-the-diet-strategies-compared-to-mean-group-size" class="level4">
-<h4 class="anchored" data-anchor-id="box-plots-for-the-diet-strategies-compared-to-mean-group-size">box plots for the diet strategies compared to mean group size</h4>
-</section>
-<section id="frugivores-seeminly-tend-to-live-in-slightly-larger-groups-than-folivores-and-omnivores-seemingly-tend-to-live-in-the-largest-groups-out-of-the-three." class="level4">
-<h4 class="anchored" data-anchor-id="frugivores-seeminly-tend-to-live-in-slightly-larger-groups-than-folivores-and-omnivores-seemingly-tend-to-live-in-the-largest-groups-out-of-the-three.">Frugivores seeminly tend to live in slightly larger groups than folivores, and omnivores seemingly tend to live in the largest groups out of the three.</h4>
-<p>d &lt;- d %&gt;% mutate( Binomial = paste(Genus, Species, sep = ” “), Family = Family, Brain_Size_Species_Mean = Brain_Size_Species_Mean, Body_mass_male_mean = Body_mass_male_mean, Genus = NULL, Species = NULL, Average_Brain_Size = mean( Brain_Size_Species_Mean, .groups = Family, na.rm = TRUE ), Average_Male_Mass = mean( Body_mass_male_mean, .groups = Family, na.rm = TRUE ), .keep =”used”, .by = Family, ) %&gt;% arrange(Average_Brain_Size, .by_group = TRUE )</p>
-</section>
-<section id="eureka-it-took-me-too-long-to-realize-all-i-had-to-do-was-add-the---d-after-the-first-d." class="level4">
-<h4 class="anchored" data-anchor-id="eureka-it-took-me-too-long-to-realize-all-i-had-to-do-was-add-the---d-after-the-first-d.">Eureka! It took me too long to realize all I had to do was add the “&lt;- d” after the first “d”.</h4>
-<p>print(d)</p>
-</section>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># need this for read_csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(f, <span class="at">col_names =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 213 Columns: 23
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (6): Scientific_Name, Family, Genus, Species, Leaves, Fauna
+dbl (17): Brain_Size_Species_Mean, Body_mass_male_mean, Body_mass_female_mea...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d) <span class="co"># prints column names</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Scientific_Name"         "Family"                 
+ [3] "Genus"                   "Species"                
+ [5] "Brain_Size_Species_Mean" "Body_mass_male_mean"    
+ [7] "Body_mass_female_mean"   "MeanGroupSize"          
+ [9] "AdultMales"              "AdultFemale"            
+[11] "GR_MidRangeLat_dd"       "Precip_Mean_mm"         
+[13] "Temp_Mean_degC"          "HomeRange_km2"          
+[15] "DayLength_km"            "Fruit"                  
+[17] "Leaves"                  "Fauna"                  
+[19] "Canine_Dimorphism"       "Feed"                   
+[21] "Move"                    "Rest"                   
+[23] "Social"                 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>BMM <span class="ot">&lt;-</span> d<span class="sc">$</span>Body_mass_male_mean</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>BMF <span class="ot">&lt;-</span> d<span class="sc">$</span>Body_mass_female_mean</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>BSD <span class="ot">&lt;-</span> BMM <span class="sc">/</span> BMF</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>BSD <span class="co"># "body size dimorphism", AKA how much bigger males are to females</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1.9276730 1.0952381 1.3170290 1.5389151 1.2747253 1.3364486 1.7729393
+  [8] 1.2840691 0.9593496        NA 1.0512498 1.0179487 0.8413462 1.1190400
+ [15] 1.0143266 1.0196078 0.9252275 0.9705240 1.0672154 1.0520446 0.8462127
+ [22] 1.0910633 1.1908302 1.1191339 1.1979167 1.1660517 1.0902090 1.0582524
+ [29] 1.0669456 0.9202899 1.0578512 1.0662393 0.9166667        NA        NA
+ [36] 0.9473684 0.9875776        NA 1.1029836 0.9016393 1.3886463 1.3590454
+ [43] 1.3485738 1.2262940 1.2527346 1.6784452 1.8269962 1.7218182 1.7741935
+ [50] 1.6372275 1.5607032 1.6666667 1.4895833 1.3333333 1.2413793 1.6339286
+ [57] 1.7304348 1.6401469 1.7215514 1.7796610 1.5657277 1.4735111 1.4689655
+ [64]        NA 1.7576531 1.3623693 1.2099448 1.0071942 1.0472973 1.4478447
+ [71] 1.4182001 1.3307027 1.2787318 1.2887711 1.1927711 1.4016173 1.1662050
+ [78] 1.0522088 1.9076923 1.0477861 1.0093897        NA 1.1851852 0.9642995
+ [85] 0.9670782 0.8921576 1.0206186 0.9559471 1.0218579 1.0996169 0.9764151
+ [92] 1.0163043 1.0654255 1.0424077 1.0875912 1.6666667 2.3832168        NA
+ [99] 1.1164179 0.9816147 1.6538462 1.0103093 0.9577703 1.0795964 1.0528000
+[106] 0.9371080 1.0110294 0.8523392 1.0370370 1.0000000 0.8714286        NA
+[113] 1.0367893 0.8851571 0.9935760 1.0387205        NA        NA 1.0037360
+[120] 1.3128120 1.3611111 0.9814126 0.9948187 1.4523810 1.6376812 1.2145749
+[127] 1.4168112 1.3661270 1.3690764 1.3958381 1.6978682 1.8080439 1.6153846
+[134] 1.6371865 1.4590164 1.7750000 1.5096416 1.6000000 1.4000000 2.6875000
+[141] 0.9375000 1.0333333 1.0238095 1.2435897 0.9967949 1.9930727 1.0223097
+[148] 1.0122951        NA 1.0784314 1.0846645 1.2287234 1.0720721 1.0817439
+[155] 1.3554217 1.2279106 1.7293233 1.8583333 1.7475728 2.0135135 0.9241848
+[162] 0.9371429 1.0182704 1.0622711        NA        NA 1.3171122 1.0869565
+[169] 1.2278481 2.0531375 2.1689338 0.9955291 0.9981269 1.1190476 0.9848283
+[176] 0.9440454 0.9742351 0.9277014 0.9442897 0.9832215 1.3033175        NA
+[183]        NA 1.5431034 0.9953488 1.0201715 0.9343189 0.9978947 0.9461967
+[190] 0.9052453 1.1697026 1.0270270 0.9359694        NA 1.3600000 1.3191176
+[197] 1.1515152 1.6000000 1.1092437 1.0406504        NA 1.1452991 1.6239316
+[204]        NA 1.1103025 1.1368421 1.0714286 1.0860484 1.0815650 1.0799824
+[211] 1.4444444 1.0778443 1.0312500</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>AF <span class="ot">&lt;-</span> d<span class="sc">$</span>AdultFemale</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>AM <span class="ot">&lt;-</span> d<span class="sc">$</span>AdultMales</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sex_ratio <span class="ot">&lt;-</span> AF <span class="sc">/</span> AM</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sex_ratio <span class="co"># how many females for every male</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]         NA  1.0000000  1.0000000  1.4347826  1.6058394  2.1724138
+  [7]  1.1298701  1.2941176  1.0000000  1.0000000         NA  1.0000000
+ [13]  1.0000000  1.0000000  1.0000000         NA  2.0588235         NA
+ [19]         NA  0.5750000  1.0000000  1.0000000  1.0142857         NA
+ [25]  1.0000000         NA         NA         NA  1.0000000  1.0000000
+ [31]  1.0000000  2.0000000         NA  1.6666667  0.5000000  1.1785714
+ [37]  1.2608696  0.5000000  0.6666667  0.6666667  1.7105263  1.3611111
+ [43]  1.4705882  1.9714286         NA  3.7500000  4.7500000         NA
+ [49]  2.7777778         NA  8.5000000  4.0000000  3.0000000  7.0000000
+ [55]         NA         NA         NA  8.8000000  1.9000000  1.0000000
+ [61]  5.0000000  4.8879310  5.0000000         NA         NA         NA
+ [67]  1.0000000  1.0000000  6.0000000  1.8780488         NA         NA
+ [73]  2.0000000  1.9333333  1.0000000  2.6086957         NA  1.0000000
+ [79]  6.9333333  0.8571429         NA  0.8333333  0.9079903  1.1666667
+ [85]  0.9117647  1.0000000  1.0000000  0.6341463  0.9466667         NA
+ [91]         NA  1.0000000  1.0000000         NA         NA         NA
+ [97]  2.4444444         NA  1.0000000         NA  1.0000000  1.0000000
+[103]  1.1111111  1.0000000         NA         NA  1.0000000  1.0000000
+[109]  1.1232877  1.2307692  0.6250000         NA  0.8333333  1.0000000
+[115]         NA  1.0000000         NA  1.0000000  1.0000000  1.8139535
+[121]         NA         NA  1.0000000         NA         NA         NA
+[127]  2.2553191  5.1470588         NA  5.2888889  6.2083333  3.4827586
+[133]         NA  1.2125000  2.2903226  2.2962963  1.4893617  2.4444444
+[139]         NA         NA  1.0000000  1.0000000  1.0000000  2.0000000
+[145]  1.0000000  3.7000000         NA         NA         NA         NA
+[151]  1.0000000  1.0000000         NA         NA  1.5571429  2.8965517
+[157]  2.4305556  2.7714286  8.2000000  2.0746269  1.0000000  1.0000000
+[163]  1.9148936  5.1730769         NA  5.9606299  2.8571429         NA
+[169]  2.0000000         NA  1.0000000  1.1666667  6.0000000  1.6500000
+[175]         NA         NA  1.2500000  0.9863014         NA  1.6470588
+[181]  2.8461538         NA         NA         NA         NA  0.6842105
+[187]  0.8750000  1.0000000         NA         NA  0.9090909         NA
+[193]  0.6296296  0.6000000         NA  0.8900000  1.8372093  6.3888889
+[199]  1.0000000         NA         NA         NA  2.7333333  6.1666667
+[205] 15.6000000  3.1764706  2.3846154  2.8000000         NA  3.3809524
+[211]  3.8000000         NA  0.5680000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>DL <span class="ot">&lt;-</span> d<span class="sc">$</span>DayLength_km</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>HR <span class="ot">&lt;-</span> d<span class="sc">$</span>HomeRange_km2</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>HD <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(HR <span class="sc">/</span> pi) <span class="co"># converts home range area to a diameter</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>DI <span class="ot">&lt;-</span> DL <span class="sc">/</span> HD <span class="co"># "defensibility index", AKA day range length divided by home range diameter</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>DI</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]         NA         NA         NA         NA         NA  0.6506061
+  [7]         NA  1.5413726         NA         NA         NA         NA
+ [13]  1.9363486  4.1359367         NA         NA  1.3499117         NA
+ [19]  1.7633253  1.8238400  4.0766439         NA  0.7821153  1.7375626
+ [25]  1.4504293         NA         NA         NA  1.8422926  2.8206234
+ [31]  1.3165457  3.1332853         NA         NA         NA  3.1387951
+ [37]  5.5145822         NA  8.8622693  5.7468246  2.1911873  1.9839143
+ [43]  2.9959938  1.5633216         NA         NA  1.4891591         NA
+ [49]         NA         NA  3.3233510         NA         NA  1.2682647
+ [55]         NA         NA         NA  2.8024956         NA  1.5195626
+ [61]  1.2396163         NA  1.4462190         NA         NA         NA
+ [67]         NA         NA  1.4770449         NA         NA         NA
+ [73]  0.4522843  0.7766504  0.7143891  0.3261739         NA  4.3816931
+ [79]  0.5336574  2.4149371         NA  2.6481094  2.3045558  0.9842263
+ [85]         NA  3.0789334  0.8798587  0.9828296  2.5390142         NA
+ [91]         NA         NA         NA         NA 15.5975939         NA
+ [97]  0.3796565  0.7735623  3.8107758         NA         NA  2.1393867
+[103]  2.3499640  2.5066283  3.5816435  1.5642306  2.4022841  0.6395792
+[109]  0.5805145  3.5669946         NA         NA  2.5027690         NA
+[115]         NA         NA         NA         NA         NA  0.7557769
+[121]         NA         NA         NA         NA         NA         NA
+[127]  1.9600055  0.6892232         NA  0.5832721  1.2058643         NA
+[133]         NA  1.6532619  1.5398954         NA  0.9093276         NA
+[139]         NA  0.5180341         NA         NA         NA  2.3779964
+[145]         NA  0.2982661  1.2351755         NA         NA         NA
+[151]         NA         NA         NA         NA  0.4024581  1.0223831
+[157]  1.8549372  1.3523103  2.3390404  1.6433707         NA         NA
+[163]  0.7521128  1.6204537         NA  1.4025468  0.7133998         NA
+[169]  3.7156193         NA  0.2249568  0.7188250  2.2513188  1.4353359
+[175]         NA         NA         NA         NA         NA  4.3491385
+[181]         NA         NA  0.2321915         NA         NA  3.1706618
+[187]         NA  3.8922508         NA         NA  3.5777255         NA
+[193]  6.8742119         NA         NA  9.5284851  1.9344744  0.3886362
+[199]  1.1880481  7.9760423         NA  5.5821745  2.0571026         NA
+[205]  0.8954109         NA         NA  0.7405071  0.9054452  0.4392321
+[211]         NA         NA  0.7674733</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DayLength_km, <span class="at">y =</span> Move)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Day Range Length (km)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Time Spent Moving (hours)"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">24</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>overall <span class="co"># compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 175 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>byfamily <span class="ot">=</span> overall <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(d<span class="sc">$</span>Family))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>byfamily <span class="co"># splits the above comparison into individual families</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 175 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>At first glance, there seems to be a weak positive correlation between spending more time moving and covering more distance in a day, both overall and in the families Atelidae, Cercopithecidae, Hylobatidae, and Lemuridae.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>overall_log <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(DayLength_km), <span class="at">y =</span> Move)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Day Range Length (log(km))"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Time Spent Moving (hours)"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">24</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>overall_log <span class="co"># compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 175 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>byfamily_log <span class="ot">=</span> overall_log <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(d<span class="sc">$</span>Family))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>byfamily_log <span class="co"># splits the above comparison into individual families</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 175 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I figured transforming the distance moved might be helpful. but in my opinion it is not.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>DLvsGS <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> MeanGroupSize, <span class="at">y =</span> DayLength_km)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Mean Group Size"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Day Range Length(km)"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>DLvsGS <span class="co"># compares mean group size and distance traveled in a day</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 120 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DLvsGS_family <span class="ot">&lt;-</span> DLvsGS <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(d<span class="sc">$</span>Family))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>DLvsGS_family <span class="co"># separates the above data by family</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 120 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Species that live in larger groups seem to travel farther in a day, both overall and in the families Cebidae, Cercopithecidae, and Pitheciidae.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>DLvsGS_log <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(MeanGroupSize), <span class="at">y =</span> <span class="fu">log</span>(DayLength_km))) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"log(Mean Group Size)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"log(Day Range Length(km))"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>DLvsGS_log <span class="co"># transforms above plots using logarithms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 120 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>DLvsGS_family_log <span class="ot">&lt;-</span> DLvsGS_log <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(d<span class="sc">$</span>Family))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>DLvsGS_family_log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 120 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Transforming both variables to logarithms made the differences much clearer; now I would say that the families Atelidae, Hominidae, Lemuridae, and maybe Indriidae show that positive correlation between group size and amount traveled in a day.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rlang)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'rlang'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:purrr':
+
+    flatten, flatten_chr, flatten_dbl, flatten_int, flatten_lgl,
+    flatten_raw, invoke, splice</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fr <span class="ot">&lt;-</span> d<span class="sc">$</span>Fruit</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>le <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Leaves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Fauna)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>frug <span class="ot">&lt;-</span> fr <span class="sc">/</span> (le <span class="sc">+</span> fa)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>fol <span class="ot">&lt;-</span> le <span class="sc">/</span> (fr <span class="sc">+</span> fa)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">=</span> <span class="fu">case_when</span>(frug <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"frugivore"</span>, fol <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"folivore"</span>, <span class="fu">are_na</span>(fr) <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span> <span class="fu">are_na</span>(le) <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span> <span class="fu">are_na</span>(fa) <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">~</span> <span class="st">"omnivore"</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>ds <span class="co"># groups all animals into their respective diet strategy groups</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] NA          NA          "frugivore" "folivore"  "folivore"  "folivore" 
+  [7] "folivore"  "folivore"  NA          NA          NA          NA         
+ [13] NA          "frugivore" NA          NA          "frugivore" NA         
+ [19] "frugivore" "frugivore" NA          NA          "folivore"  "frugivore"
+ [25] "frugivore" "frugivore" NA          NA          "frugivore" NA         
+ [31] "frugivore" "omnivore"  NA          NA          NA          NA         
+ [37] "frugivore" NA          NA          NA          "omnivore"  "frugivore"
+ [43] "frugivore" "frugivore" NA          "frugivore" "frugivore" NA         
+ [49] NA          NA          "frugivore" "frugivore" "frugivore" "frugivore"
+ [55] NA          NA          "folivore"  "frugivore" NA          "frugivore"
+ [61] "frugivore" "omnivore"  "frugivore" "frugivore" NA          NA         
+ [67] NA          NA          "frugivore" "omnivore"  NA          NA         
+ [73] "folivore"  "folivore"  "folivore"  "frugivore" NA          NA         
+ [79] "omnivore"  NA          NA          NA          NA          "frugivore"
+ [85] "frugivore" "frugivore" NA          NA          NA          NA         
+ [91] NA          NA          NA          NA          NA          NA         
+ [97] "folivore"  NA          NA          NA          NA          "frugivore"
+[103] "frugivore" "frugivore" "frugivore" "frugivore" "frugivore" NA         
+[109] "frugivore" NA          NA          NA          NA          NA         
+[115] NA          NA          NA          NA          NA          "frugivore"
+[121] NA          NA          NA          NA          NA          "frugivore"
+[127] "frugivore" "omnivore"  NA          "folivore"  "frugivore" NA         
+[133] NA          NA          NA          "frugivore" "folivore"  NA         
+[139] NA          NA          NA          NA          NA          NA         
+[145] NA          "folivore"  "folivore"  NA          "folivore"  NA         
+[151] NA          NA          NA          NA          NA          "frugivore"
+[157] "frugivore" "frugivore" NA          NA          NA          NA         
+[163] "folivore"  "folivore"  "folivore"  "folivore"  NA          NA         
+[169] "frugivore" NA          "frugivore" NA          NA          NA         
+[175] NA          NA          "folivore"  "frugivore" "frugivore" "folivore" 
+[181] NA          NA          NA          NA          NA          "frugivore"
+[187] NA          NA          NA          NA          NA          NA         
+[193] NA          NA          NA          NA          "omnivore"  "omnivore" 
+[199] "omnivore"  NA          NA          NA          "folivore"  NA         
+[205] NA          NA          NA          NA          NA          NA         
+[211] NA          "frugivore" "frugivore"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>diet_strategy <span class="ot">&lt;-</span> ds</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>diet_strategy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] NA          NA          "frugivore" "folivore"  "folivore"  "folivore" 
+  [7] "folivore"  "folivore"  NA          NA          NA          NA         
+ [13] NA          "frugivore" NA          NA          "frugivore" NA         
+ [19] "frugivore" "frugivore" NA          NA          "folivore"  "frugivore"
+ [25] "frugivore" "frugivore" NA          NA          "frugivore" NA         
+ [31] "frugivore" "omnivore"  NA          NA          NA          NA         
+ [37] "frugivore" NA          NA          NA          "omnivore"  "frugivore"
+ [43] "frugivore" "frugivore" NA          "frugivore" "frugivore" NA         
+ [49] NA          NA          "frugivore" "frugivore" "frugivore" "frugivore"
+ [55] NA          NA          "folivore"  "frugivore" NA          "frugivore"
+ [61] "frugivore" "omnivore"  "frugivore" "frugivore" NA          NA         
+ [67] NA          NA          "frugivore" "omnivore"  NA          NA         
+ [73] "folivore"  "folivore"  "folivore"  "frugivore" NA          NA         
+ [79] "omnivore"  NA          NA          NA          NA          "frugivore"
+ [85] "frugivore" "frugivore" NA          NA          NA          NA         
+ [91] NA          NA          NA          NA          NA          NA         
+ [97] "folivore"  NA          NA          NA          NA          "frugivore"
+[103] "frugivore" "frugivore" "frugivore" "frugivore" "frugivore" NA         
+[109] "frugivore" NA          NA          NA          NA          NA         
+[115] NA          NA          NA          NA          NA          "frugivore"
+[121] NA          NA          NA          NA          NA          "frugivore"
+[127] "frugivore" "omnivore"  NA          "folivore"  "frugivore" NA         
+[133] NA          NA          NA          "frugivore" "folivore"  NA         
+[139] NA          NA          NA          NA          NA          NA         
+[145] NA          "folivore"  "folivore"  NA          "folivore"  NA         
+[151] NA          NA          NA          NA          NA          "frugivore"
+[157] "frugivore" "frugivore" NA          NA          NA          NA         
+[163] "folivore"  "folivore"  "folivore"  "folivore"  NA          NA         
+[169] "frugivore" NA          "frugivore" NA          NA          NA         
+[175] NA          NA          "folivore"  "frugivore" "frugivore" "folivore" 
+[181] NA          NA          NA          NA          NA          "frugivore"
+[187] NA          NA          NA          NA          NA          NA         
+[193] NA          NA          NA          NA          "omnivore"  "omnivore" 
+[199] "omnivore"  NA          NA          NA          "folivore"  NA         
+[205] NA          NA          NA          NA          NA          NA         
+[211] NA          "frugivore" "frugivore"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dietstrat <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d[<span class="sc">-</span><span class="fu">which</span>(d<span class="sc">$</span>diet_strategy <span class="sc">%in%</span> <span class="cn">NA</span>),], <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> diet_strategy, <span class="at">y =</span> MeanGroupSize)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Diet Strategy"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Mean Group Size"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>dietstrat <span class="co"># box plots for the diet strategies compared to mean group size</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 13 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dietstrat_log <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d[<span class="sc">-</span><span class="fu">which</span>(d<span class="sc">$</span>diet_strategy <span class="sc">%in%</span> <span class="cn">NA</span>),], <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> diet_strategy, <span class="at">y =</span> <span class="fu">log</span>(MeanGroupSize))) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Diet Strategy"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Mean Group Size"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>dietstrat_log <span class="co"># transforms mean group size to logarithms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 13 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA-challenge_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Frugivores seemingly tend to live in slightly larger groups than folivores, and omnivores seemingly tend to live in the largest groups out of the three.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>d_mut <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Binomial =</span> <span class="fu">paste</span>(Genus, Species, <span class="at">sep =</span> <span class="st">" "</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Family =</span> Family,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Brain_Size_Species_Mean =</span> Brain_Size_Species_Mean,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Body_mass_male_mean =</span> Body_mass_male_mean,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Genus =</span> <span class="cn">NULL</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Species =</span> <span class="cn">NULL</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Average_Brain_Size =</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>(</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        Brain_Size_Species_Mean,</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">.groups =</span> Family,</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Average_Male_Mass =</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>(</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>        Body_mass_male_mean,</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">.groups =</span> Family,</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">.keep =</span> <span class="st">"used"</span>,</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> Family,</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Average_Brain_Size, </span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by_group =</span> <span class="cn">TRUE</span></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Eureka! It took me too long to realize all I had to do was add the “&lt;- d” after the first “d”.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d_mut)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 213 × 6
+   Family Brain_Size_Species_M…¹ Body_mass_male_mean Binomial Average_Brain_Size
+   &lt;chr&gt;                   &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt;
+ 1 Tarsi…                   3.16                 128 Tarsius…               3.26
+ 2 Tarsi…                  NA                     NA Tarsius…               3.26
+ 3 Tarsi…                   3.36                 134 Tarsius…               3.26
+ 4 Cheir…                   5.81                 438 Cheirog…               4.04
+ 5 Cheir…                   2.6                  140 Cheirog…               4.04
+ 6 Cheir…                   1.63                  63 Microce…               4.04
+ 7 Cheir…                  NA                     31 Microce…               4.04
+ 8 Cheir…                   1.72                  43 Microce…               4.04
+ 9 Cheir…                   5.8                  311 Mirza c…               4.04
+10 Cheir…                   6.68                 328 Phaner …               4.04
+# ℹ 203 more rows
+# ℹ abbreviated name: ¹​Brain_Size_Species_Mean
+# ℹ 1 more variable: Average_Male_Mass &lt;dbl&gt;</code></pre>
+</div>
+</div>
 </section>
 
 </main>
