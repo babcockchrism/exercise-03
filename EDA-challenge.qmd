@@ -5,90 +5,88 @@ format: html
 
 # exercise-03
 
-library(tidyverse)
-
-#### need this for read_csv
-
+``` {r}
+library(tidyverse) # need this for read_csv
 f <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"
 d <- read_csv(f, col_names = TRUE)
-names(d)
+names(d) # prints column names
+```
 
-#### prints column names
-
+``` {r}
 BMM <- d$Body_mass_male_mean
 BMF <- d$Body_mass_female_mean
 BSD <- BMM / BMF
-BSD
+BSD # "body size dimorphism", AKA how much bigger males are to females
+```
 
-#### "body size dimorphism", AKA how much bigger males are to females
-
+``` {r}
 AF <- d$AdultFemale
 AM <- d$AdultMales
 sex_ratio <- AF / AM
-sex_ratio
+sex_ratio # how many females for every male
+```
 
-#### how many females for every male
-
+``` {r}
 DL <- d$DayLength_km
 HR <- d$HomeRange_km2
-HD <- 2 * sqrt(HR / pi)
+HD <- 2 * sqrt(HR / pi) # converts home range area to a diameter
+```
 
-#### converts home range area to a diameter
-
-DI <- DL / HD
-
-#### "defensibility index", AKA day range length divided by home range diameter
-
+``` {r}
+DI <- DL / HD # "defensibility index", AKA day range length divided by home range diameter
 DI
+```
 
-
+``` {r}
 library(skimr)
 overall <- ggplot(data = d, mapping = aes(x = DayLength_km, y = Move)) + geom_point() + xlab("Day Range Length (km)") + ylab("Time Spent Moving (hours)") + ylim(0, 24)
-overall
+overall # compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families
+```
 
-#### compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families
-
+``` {r}
 byfamily = overall + facet_wrap(vars(d$Family))
-byfamily
+byfamily # splits the above comparison into individual families
+```
 
-#### splits the above comparison into individual families
+At first glance, there seems to be a weak positive correlation between spending more time moving and covering more distance in a day, both overall and in the families Atelidae, Cercopithecidae, Hylobatidae, and Lemuridae.
 
-#### At first glance, there seems to be a weak positive correlation between spending more time moving and covering more distance in a day, both overall and in the families Atelidae, Cercopithecidae, Hylobatidae, and Lemuridae.
-
+``` {r}
 overall_log <- ggplot(data = d, mapping = aes(x = log(DayLength_km), y = Move)) + geom_point() + xlab("Day Range Length (log(km))") + ylab("Time Spent Moving (hours)") + ylim(0, 24)
-overall_log
+overall_log # compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families
+```
 
-#### compares the amount an animal moves in a day with the amount of time that animal moves in a day across all families
-
+``` {r}
 byfamily_log = overall_log + facet_wrap(vars(d$Family))
-byfamily_log
+byfamily_log # splits the above comparison into individual families
+```
 
-#### splits the above comparison into individual families
+I figured transforming the distance moved might be helpful. but in my opinion it is not.
 
-#### I figured transforming the distance moved might be helpful. but in my opinion it is not.
-
+``` {r}
 DLvsGS <- ggplot(data = d, mapping = aes(x = MeanGroupSize, y = DayLength_km)) + geom_point() + xlab("Mean Group Size") + ylab("Day Range Length(km)")
-DLvsGS
+DLvsGS # compares mean group size and distance traveled in a day
+```
 
-#### compares mean group size and distance traveled in a day
-
+``` {r}
 DLvsGS_family <- DLvsGS + facet_wrap(vars(d$Family))
-DLvsGS_family
+DLvsGS_family # separates the above data by family
+```
 
-#### separates the above data by family
+Species that live in larger groups seem to travel farther in a day, both overall and in the families Cebidae, Cercopithecidae, and Pitheciidae.
 
-#### Species that live in larger groups seem to travel farther in a day, both overall and in the families Cebidae, Cercopithecidae, and Pitheciidae.
-
+``` {r}
 DLvsGS_log <- ggplot(data = d, mapping = aes(x = log(MeanGroupSize), y = log(DayLength_km))) + geom_point() + xlab("log(Mean Group Size)") + ylab("log(Day Range Length(km))")
-DLvsGS_log
+DLvsGS_log # transforms above plots using logarithms
+```
 
-#### transforms above plots using logarithms
-
+``` {r}
 DLvsGS_family_log <- DLvsGS_log + facet_wrap(vars(d$Family))
 DLvsGS_family_log
+```
 
-#### Transforming both variables to logarithms made the differences much clearer; now I would say that the families Atelidae, Hominidae, Lemuridae, and maybe Indriidae show that positive correlation between group size and amount traveled in a day.
+Transforming both variables to logarithms made the differences much clearer; now I would say that the families Atelidae, Hominidae, Lemuridae, and maybe Indriidae show that positive correlation between group size and amount traveled in a day.
 
+``` {r}
 library(rlang)
 fr <- d$Fruit
 le <- as.numeric(d$Leaves)
@@ -96,21 +94,29 @@ fa <- as.numeric(d$Fauna)
 frug <- fr / (le + fa)
 fol <- le / (fr + fa)
 ds = case_when(frug > 1 ~ "frugivore", fol > 1 ~ "folivore", are_na(fr) == FALSE & are_na(le) == FALSE & are_na(fa) == FALSE ~ "omnivore")
-ds
+ds # groups all animals into their respective diet strategy groups
+```
 
-#### groups all animals into their respective diet strategy groups
-
+``` {r}
 d$diet_strategy <- ds
 d$diet_strategy
+```
 
+``` {r}
 dietstrat <- ggplot(data = d[-which(d$diet_strategy %in% NA),], mapping = aes(x = diet_strategy, y = MeanGroupSize)) + geom_boxplot() + xlab("Diet Strategy") + ylab("Mean Group Size")
-dietstrat
+dietstrat # box plots for the diet strategies compared to mean group size
+```
 
-#### box plots for the diet strategies compared to mean group size
 
-#### Frugivores seeminly tend to live in slightly larger groups than folivores, and omnivores seemingly tend to live in the largest groups out of the three.
+``` {r}
+dietstrat_log <- ggplot(data = d[-which(d$diet_strategy %in% NA),], mapping = aes(x = diet_strategy, y = log(MeanGroupSize))) + geom_boxplot() + xlab("Diet Strategy") + ylab("Mean Group Size")
+dietstrat_log # transforms mean group size to logarithms
+```
 
-d <- d %>%
+Frugivores seemingly tend to live in slightly larger groups than folivores, and omnivores seemingly tend to live in the largest groups out of the three.
+
+``` {r}
+d_mut <- d %>%
   mutate(
     Binomial = paste(Genus, Species, sep = " "),
     Family = Family,
@@ -136,7 +142,10 @@ d <- d %>%
   arrange(Average_Brain_Size, 
     .by_group = TRUE
   )
+```
 
-#### Eureka! It took me too long to realize all I had to do was add the "<- d" after the first "d".
+Eureka! It took me too long to realize all I had to do was add the "<- d" after the first "d".
 
-print(d)
+``` {r}
+print(d_mut)
+```
